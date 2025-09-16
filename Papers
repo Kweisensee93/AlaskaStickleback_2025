@@ -1,5 +1,9 @@
 For a better understanding of the topic several papers that are of interest are noted here.
 
+Introduction to Parliament2 and MetaSV
+https://link.springer.com/article/10.1186/s13059-021-02558-x
+--> Those are 2 ways of using several tools for finding SVs
+
 Parliament2 - A tool that bundles several software for finding SV
 It bundles Breakdancer, CNVnator, Crest, Delly, Lumpy, Manta, and Pindel via SURVIVOR and validates via SVTyper
 https://academic.oup.com/gigascience/article/9/12/giaa145/6042728?login=false
