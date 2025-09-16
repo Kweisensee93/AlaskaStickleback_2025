@@ -1,0 +1,11 @@
+For a better understanding of the topic several papers that are of interest are noted here.
+
+Parliament2 - A tool that bundles several software for finding SV
+It bundles Breakdancer, CNVnator, Crest, Delly, Lumpy, Manta, and Pindel via SURVIVOR and validates via SVTyper
+https://academic.oup.com/gigascience/article/9/12/giaa145/6042728?login=false
+
+Overview over several visualization tools for SV - to be used for manual curation
+https://www.nature.com/articles/s10038-019-0687-0
+
+Similar approaches:
+Birds:  https://academic.oup.com/gbe/article-pdf/doi/10.1093/gbe/evae049/57353450/evae049.pdf
