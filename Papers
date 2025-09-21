@@ -18,13 +18,15 @@ Manta, DELLY, LUMPY, BreakDancer, GRIDSS, CNVnator, SvABA, Pindel
 For comparing tools: SURVIVOR (is part of Parliament2 ?) or MetaSV, SMOOVE, SpeedSeq SV, GATK-SV
 From Illumina: svimmer ?
 
-comparison of many tools (2024):
+comparison of many single tools (2024):
 https://link.springer.com/article/10.1186/s12864-024-10239-9
 --> seems like +/- Manta is among the best tools
 
-comparison of meta-callers:
+comparison of meta-callers (for SV-MeCa):
 https://link.springer.com/article/10.1186/s12859-025-06246-6
 
+ConsensuSV:
+https://github.com/SFGLab/ConsensuSV-core
 
 Check how good your pipeline is --> Note: It is human data, hence not that applicable for fish data
 https://www.biorxiv.org/content/10.1101/664623v3.abstract
