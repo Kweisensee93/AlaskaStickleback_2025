@@ -23,6 +23,7 @@ https://link.springer.com/article/10.1186/s12864-024-10239-9
 
 comparison of meta-callers (for SV-MeCa):
 https://link.springer.com/article/10.1186/s12859-025-06246-6
+https://github.com/ccfboc-bioinformatics/SV-MeCa
 
 ConsensuSV:
 https://github.com/SFGLab/ConsensuSV-core
