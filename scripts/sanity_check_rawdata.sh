@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=sanity_check_samples
-#SBATCH --output=./logfiles/sanity_check_%j.log
-#SBATCH --error=./logfiles/sanity_check_%j.err
+#SBATCH --output=/storage/research/iee_evol/Korbi/logfiles/sanity_check_%j.log
+#SBATCH --error=/storage/research/iee_evol/Korbi/logfiles/sanity_check_%j.err
 #SBATCH --time=00:10:00
 #SBATCH --partition=epyc2
 #SBATCH --cpus-per-task=1
@@ -20,8 +20,11 @@ RAW_LIST="${OUT_DIR}/samples_rawdata.txt"
 
 # List BAM and RAW files
 
-ls $OUT_DIR/bams_real/* > $BAM_LIST
-ls $OUT_DIR/raw_data/* > $RAW_LIST
+#ls $OUT_DIR/bams_real/* > $BAM_LIST
+#ls $OUT_DIR/raw_data/* > $RAW_LIST
+ls "$OUT_DIR"/bams_real/* | xargs -n 1 basename > "$BAM_LIST"
+ls "$OUT_DIR"/raw_data/* | xargs -n 1 basename > "$RAW_LIST"
+
 
 # Output files
 FULL="${OUT_DIR}/samples_full.txt"
