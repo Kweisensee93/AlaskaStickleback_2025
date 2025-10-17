@@ -1,0 +1,45 @@
+For a better understanding of the topic several papers that are of interest are noted here.
+
+Introduction to Parliament2 and MetaSV
+https://link.springer.com/article/10.1186/s13059-021-02558-x
+--> Those are 2 ways of using several tools for finding SVs
+
+Parliament2 - A tool that bundles several software for finding SV
+It bundles Breakdancer, CNVnator, Crest, Delly, Lumpy, Manta, and Pindel via SURVIVOR and validates via SVTyper
+It parallelizes the tools used to save runtime. Gives similar (slightly better) results to MetaSV
+https://academic.oup.com/gigascience/article/9/12/giaa145/6042728
+
+MetaSV - last update 9 years ago:
+https://github.com/bioinform/metasv?tab=readme-ov-file
+
+Tools being used:
+Manta, DELLY, LUMPY, BreakDancer, GRIDSS, CNVnator, SvABA, Pindel
+For comparing tools: SURVIVOR (is part of Parliament2 ?) or MetaSV, SMOOVE, SpeedSeq SV, GATK-SV
+From Illumina: svimmer ?
+
+comparison of many single tools (2024):
+https://link.springer.com/article/10.1186/s12864-024-10239-9
+--> seems like +/- Manta is among the best tools
+
+comparison of meta-callers (for SV-MeCa):
+https://link.springer.com/article/10.1186/s12859-025-06246-6
+https://github.com/ccfboc-bioinformatics/SV-MeCa
+
+ConsensuSV:
+https://github.com/SFGLab/ConsensuSV-core
+
+Check how good your pipeline is --> Note: It is human data, hence not that applicable for fish data
+https://www.biorxiv.org/content/10.1101/664623v3.abstract
+
+##Visualization:
+Overview over several visualization tools for SV - to be used for manual curation
+https://www.nature.com/articles/s10038-019-0687-0
+Samplot (can be used to use their Machine-learning approach for automated curation later on)
+https://genomebiology.biomedcentral.com/articles/10.1186/s13059-021-02380-5
+https://link.springer.com/article/10.1186/s13059-021-02380-5
+
+SVTools
+https://github.com/hall-lab/svtools?tab=readme-ov-file
+
+Similar approaches:
+Birds:  https://academic.oup.com/gbe/article-pdf/doi/10.1093/gbe/evae049/57353450/evae049.pdf
