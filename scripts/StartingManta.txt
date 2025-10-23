@@ -1,0 +1,10 @@
+For Manta set up we follow the GitHub README:
+https://github.com/Illumina/manta/blob/master/docs/userGuide/README.md
+
+The configManta.py is located at:
+/storage/homefs/kw23y068/software/Manta/build/src/python/bin/configManta.py
+
+It needs a Python that is <3.0 AND > 2.6
+Hence we use latest Python 2 on cluster:
+module load Python/2.7.18-GCCcore-11.3.0-bare
+
