@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=manta_call
-#SBATCH --array=1-10
+#SBATCH --array=101-200
 #SBATCH --output=/storage/homefs/kw23y068/logfiles/manta_call_%A_%a.out
 #SBATCH --error=/storage/homefs/kw23y068/logfiles/manta_call_%A_%a.err
 #SBATCH --time=02:00:00
