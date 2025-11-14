@@ -3,10 +3,12 @@
 #SBATCH --output=/storage/homefs/kw23y068/logfiles/GRIDSS_joint_%j.out
 #SBATCH --error=/storage/homefs/kw23y068/logfiles/GRIDSS_joint_%j.err
 #SBATCH --time=24:00:00
-#SBATCH --cpus-per-task=16
-#SBATCH --mem=128G
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=32G
 #SBATCH --accounting-stats
 #SBATCH --partition=epyc2
+
+# According to GRIDSS documentation, it is optimized for 8 CPU threads and 32GB RAM
 
 ####################
 # PARAMETERS TO SET
