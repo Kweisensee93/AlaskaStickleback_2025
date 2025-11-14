@@ -1,9 +1,9 @@
 #!/bin/bash
 #SBATCH --job-name=manta_call
-#SBATCH --array=201-300
+#SBATCH --array=449
 #SBATCH --output=/storage/homefs/kw23y068/logfiles/manta_call_%A_%a.out
 #SBATCH --error=/storage/homefs/kw23y068/logfiles/manta_call_%A_%a.err
-#SBATCH --time=02:00:00
+#SBATCH --time=02:30:00
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16G
 #SBATCH --partition=epyc2

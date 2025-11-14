@@ -1,7 +1,8 @@
 #!/bin/bash
 #SBATCH --job-name=GRIDSS
-#SBATCH --output=/storage/homefs/kw23y068/logfiles/GRIDSS_%j.out
-#SBATCH --error=/storage/homefs/kw23y068/logfiles/GRIDSS_%j.err
+#SBATCH --output=/storage/homefs/kw23y068/logfiles/GRIDSS_%A_%a.out
+#SBATCH --error=/storage/homefs/kw23y068/logfiles/GRIDSS_%A_%a.err
+#SBATCH --array=1
 #SBATCH --time=02:30:00
 #SBATCH --cpus-per-task=9
 #SBATCH --mem=32G
@@ -13,7 +14,11 @@ echo "Date: $(date)"
 # Load Anaconda module to access conda environments
 module load Anaconda3/2024.02-1
 
-SAMPLE_NAME="FG_CC_19T_095"
+SAMPLE_LIST=/storage/research/iee_evol/Korbi/output/bams_full.csv
+SAMPLE_PATH=$(sed -n "${SLURM_ARRAY_TASK_ID}p" "${SAMPLE_LIST}")
+SAMPLE_FILE=$(basename "${SAMPLE_PATH}")
+SAMPLE_NAME="${SAMPLE_FILE%.fixmate.coordsorted.bam}"
+
 
 # Define paths
 GRIDSS_CONDA=/storage/homefs/kw23y068/.conda/envs/gridss/bin/gridss
@@ -162,7 +167,7 @@ if (length(warnings()) > 0) {
 }
 
 EOF
-chmod +x Rscript /storage/homefs/kw23y068/software/scripts/annotate_sv.R
+chmod +x /storage/homefs/kw23y068/software/scripts/annotate_sv.R
 fi
 
 # Run annotation
@@ -183,7 +188,8 @@ conda deactivate
 
 # Even though we set -w we still get output where the script is
 # It persists also if we cd to RUN_DIR before gridss so we move the generated files to RUN_DIR
-mv /storage/homefs/kw23y068/software/scripts/*.log /storage/homefs/kw23y068/logfiles/GRIDSS/
+#mv /storage/homefs/kw23y068/software/scripts/*.log /storage/homefs/kw23y068/logfiles/GRIDSS/
+# We need to move logfiles manually afterwards if run as array job
 
 echo "Finished SV annotation"
 echo "Date: $(date)"
