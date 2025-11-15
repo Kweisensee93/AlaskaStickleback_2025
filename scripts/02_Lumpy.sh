@@ -14,10 +14,9 @@ conda activate lumpy
 #paths
 PROJECT_DIR=/storage/research/iee_evol/Korbi
 REFERENCE=${PROJECT_DIR}/ref/GCF_016920845.1_GAculeatus_UGA_version5_genomic_shortnames_noY.fna
-#SAMPLE_LIST=/storage/research/iee_evol/Korbi/output/bams_full.csv
-BAM="/storage/research/iee_evol/Korbi/bams_real/FG_CC_19T_031.fixmate.coordsorted.bam"
+BAM="${PROJECT_DIR}/bams_real/FG_CC_19T_031.fixmate.coordsorted.bam"
 OUT_DIR="/storage/scratch/iee_evol/kw23y068/lumpy/"
-# sample_lumpy.vcf
+#SAMPLE_LIST=/storage/research/iee_evol/Korbi/output/bams_full.csv
 SAMPLE_NAME="FG_CC_19T_031"
 RUN_DIR="${OUT_DIR}/${SAMPLE_NAME}"
 
@@ -33,8 +32,8 @@ fi
 # We go with the BWA-MEM and samtools route; we already hace a .bam file
 
 # Extract discordant & split-read alignments
-DISCORDANT="${OUT_DIR}/${SAMPLE_NAME}.discordants.unsorted.bam"
-SPLITREAD="${OUT_DIR}/${SAMPLE_NAME}.splitters.unsorted.bam"
+DISCORDANT="${RUN_DIR}/${SAMPLE_NAME}.discordants.unsorted.bam"
+SPLITREAD="${RUN_DIR}/${SAMPLE_NAME}.splitters.unsorted.bam"
 
 # Extract the discordant paired-end alignments.
 samtools view -b -F 1294 $BAM > ${DISCORDANT}
@@ -51,17 +50,21 @@ samtools sort $SPLITREAD ${SAMPLE_NAME}.splitters
 
 echo "Running LUMPY…"
 
-# lumpy \
-#     -mw 4 \
-#     -tt 0 \
-#     -pe id:sample,bam_file:$DISCORDANT,histo_file:sample.histo,mean:300,stdev:50,read_length:150,min_non_overlap:100,discordant_z:5,back_distance:10,weight:1,min_mapping_threshold:20 \
-#     -sr id:sample,bam_file:$SPLITREAD,back_distance:10,weight:1,min_mapping_threshold:20 \
-#     > $OUT
-
 lumpyexpress \
     -B ${BAM} \
-    -S ${SPLITREAD}.bam \
-    -D ${DISCORDANT}.bam \
+    -S ${SPLITREAD} \
+    -D ${DISCORDANT} \
     -o ${RUN_DIR}/${SAMPLE_NAME}_lumpy.vcf
 
 echo "Done. Output written to: ${RUN_DIR}/${SAMPLE_NAME}_lumpy.vcf"
+
+# Compress VCF
+# the conda environment has bgzip installed
+bgzip -c ${RUN_DIR}/${SAMPLE_NAME}_lumpy.vcf > ${RUN_DIR}/${SAMPLE_NAME}_lumpy.vcf.gz
+
+conda deactivate
+# No BFCtools in lumpy env, so load it separately, afte conda deactivate
+
+module load BCFtools/1.12-GCC-10.3.0
+
+bcftools index ${RUN_DIR}/${SAMPLE_NAME}_lumpy.vcf.gz
