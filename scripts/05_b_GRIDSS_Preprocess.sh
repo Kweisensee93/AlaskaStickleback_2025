@@ -15,8 +15,8 @@
 ####################
 # May be altered for feeding in arguments to script
 # Define which batch of samples to process
-BATCH_START=1    # Change to 81, 161, 241, 321, 401 for other batches
-BATCH_END=80     # Change to 160, 240, 320, 400, 480 for other batches
+BATCH_START=401    # Change to 81, 161, 241, 321, 401 for other batches
+BATCH_END=480    # Change to 160, 240, 320, 400, 480 for other batches
 
 
 # This script is seting up the reference and preprocessing BAM files for GRIDSS SV calling.
