@@ -1,0 +1,18 @@
+# Ignore everything by default
+*
+
+# Allow the .gitignore file itself
+!.gitignore
+
+# Allow the README and Papers.txt files
+!README.md
+!Papers.txt
+
+# Allow the scripts folder and its contents
+!scripts/
+!scripts/**
+
+# Ignore log, err, and out files in the scripts directory
+./scripts/*.log
+./scripts/*.err
+./scripts/*.out
