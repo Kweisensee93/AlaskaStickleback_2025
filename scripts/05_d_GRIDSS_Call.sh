@@ -2,9 +2,9 @@
 #SBATCH --job-name=GRIDSS_call
 #SBATCH --output=/storage/homefs/kw23y068/logfiles/GRIDSS_call_%j.out
 #SBATCH --error=/storage/homefs/kw23y068/logfiles/GRIDSS_call_%j.err
-#SBATCH --time=1-00:00:00
-#SBATCH --cpus-per-task=9
-#SBATCH --mem=64G
+#SBATCH --time=06:00:00
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=48G
 #SBATCH --partition=epyc2
 
 # According to GRIDSS documentation, it is optimized for 8 CPU threads and 32GB RAM - lets see
@@ -14,8 +14,8 @@
 ####################
 # May be altered for feeding in arguments to script
 # Define which batch of samples to process
-BATCH_START=1    # Change to 81, 161, 241, 321, 401 for other batches
-BATCH_END=80     # Change to 160, 240, 320, 400, 480 for other batches
+BATCH_START=81    # Change to 81, 161, 241, 321, 401 for other batches
+BATCH_END=160     # Change to 160, 240, 320, 400, 480 for other batches
 
 # This script is seting up the reference and preprocessing BAM files for GRIDSS SV calling.
 # This is a sub-step of 05_GRIDSS.sh
