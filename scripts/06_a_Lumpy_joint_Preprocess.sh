@@ -15,7 +15,7 @@
 # May be altered for feeding in arguments to script
 # Define which batch of samples to process
 BATCH_START=1    # Change to 81, 161, 241, 321, 401 for other batches
-BATCH_END=81     # Change to 160, 240, 320, 400, 480 for other batches
+BATCH_END=80     # Change to 160, 240, 320, 400, 480 for other batches
 
 echo "========================================"
 echo "Lumpy Joint Preprocessing"
@@ -71,8 +71,13 @@ samtools view -h ${BAM} \
 
 
 # Sort both alignments
-samtools sort ${DISCORDANT} ${SAMPLE_NAME}.discordants
-samtools sort ${SPLITREAD} ${SAMPLE_NAME}.splitters
+#samtools sort ${DISCORDANT} ${SAMPLE_NAME}.discordants
+#samtools sort ${SPLITREAD} ${SAMPLE_NAME}.splitters
+
+# Sort both alignments
+samtools sort -o "${RUN_DIR}/${SAMPLE_NAME}.discordants.bam" "${DISCORDANT}"
+samtools sort -o "${RUN_DIR}/${SAMPLE_NAME}.splitters.bam" "${SPLITREAD}"
+
 
 CALL_EXIT_CODE=$?
 

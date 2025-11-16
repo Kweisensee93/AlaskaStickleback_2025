@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --job-name=Lumpy_joint_run
-#SBATCH --output=/storage/homefs/kw23y068/logfiles/Lumpy_joint_run_%A_%a.out
-#SBATCH --error=/storage/homefs/kw23y068/logfiles/Lumpy_joint_run_%A_%a.err
-#SBATCH --time=01:00:00
+#SBATCH --output=/storage/homefs/kw23y068/logfiles/Lumpy_joint_run_%j.out
+#SBATCH --error=/storage/homefs/kw23y068/logfiles/Lumpy_joint_run_%j.err
+#SBATCH --time=12:00:00
 #SBATCH --cpus-per-task=10
 #SBATCH --mem=64G
 #SBATCH --partition=epyc2
@@ -14,7 +14,7 @@
 # May be altered for feeding in arguments to script
 # Define which batch of samples to process
 BATCH_START=1    # Change to 81, 161, 241, 321, 401 for other batches
-BATCH_END=81     # Change to 160, 240, 320, 400, 480 for other batches
+BATCH_END=80     # Change to 160, 240, 320, 400, 480 for other batches
 
 echo "========================================"
 echo "Lumpy Joint Preprocessing"

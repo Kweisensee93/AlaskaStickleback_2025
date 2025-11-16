@@ -10,9 +10,12 @@
 
 # Allow the scripts folder and its contents
 !scripts/
-!scripts/**
+#!scripts/**
 
 # Ignore log, err, and out files in the scripts directory
 ./scripts/*.log
 ./scripts/*.err
 ./scripts/*.out
+
+# Ignore subdirectories by scripts
+./scripts/lumpy*/
