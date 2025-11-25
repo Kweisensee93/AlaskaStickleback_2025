@@ -22,8 +22,16 @@ module load Python/2.7.18-GCCcore-11.3.0-bare
 #         echo "${d%/}" >> failed_runs.txt
 #     fi
 # done
+# check aftwerwards:
+# for d in /storage/scratch/iee_evol/kw23y068/Manta/*/; do
+#     if [ ! -f "$d/results/variants/diploidSV.vcf.gz" ]; then
+#         echo "Manta run failed for sample: ${d%/}"
+#     fi
+# done
 # awk -v base="/storage/research/iee_evol/Korbi/bams_real" '{gsub("/",""); \
 #   print base"/"$1".fixmate.coordsorted.bam"}' failed_runs.txt > failed_bams.csv
+# as one-liner:
+# awk -v base="/storage/research/iee_evol/Korbi/bams_real" '{gsub("/",""); print base"/"$1".fixmate.coordsorted.bam"}' failed_runs.txt > failed_bams.csv
 
 
 ## ==========================================================

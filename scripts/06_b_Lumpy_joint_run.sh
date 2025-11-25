@@ -2,7 +2,7 @@
 #SBATCH --job-name=Lumpy_joint_run
 #SBATCH --output=/storage/homefs/kw23y068/logfiles/Lumpy_joint_run_%j.out
 #SBATCH --error=/storage/homefs/kw23y068/logfiles/Lumpy_joint_run_%j.err
-#SBATCH --time=12:00:00
+#SBATCH --time=2-00:00:00
 #SBATCH --cpus-per-task=10
 #SBATCH --mem=64G
 #SBATCH --partition=epyc2
@@ -87,10 +87,12 @@ DISC_FILES="${DISC_FILES%,}"
 
 echo "Running LUMPY joint call"
 
+# Trying out defining another temp directory for lumpy with -T option (as per their GitHub)
 lumpyexpress \
     -B "${BAM_FILES}" \
     -S "${SPLIT_FILES}" \
     -D "${DISC_FILES}" \
+    -T "/storage/scratch/iee_evol/kw23y068/lumpy" \
     -o "${OUTPUT_VCF}"
 
 echo "Done. Output written to: ${OUTPUT_VCF}"
