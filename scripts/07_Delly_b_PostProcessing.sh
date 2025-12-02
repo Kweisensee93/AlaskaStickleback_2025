@@ -123,7 +123,7 @@ bcftools query -f '%CHROM\t%POS\t%INFO/END\n' \
 #module purge
 #module load R/4.1.0-foss-2021a
 
-module reset
+module -q reset
 module load Anaconda3/2024.02-1
 source $(conda info --base)/etc/profile.d/conda.sh
 conda activate R_all
@@ -131,7 +131,7 @@ conda activate R_all
 Rscript ${RScripts}/add_info_bcf.r ${VCF_FOLDER}/raw_sorted.noTRA.info 
 
 conda deactivate
-module reset
+module -q reset
 
 module load HTSlib/1.12-GCC-10.3.0
 module load BCFtools/1.12-GCC-10.3.0

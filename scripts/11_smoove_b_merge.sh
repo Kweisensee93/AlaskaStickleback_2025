@@ -69,3 +69,5 @@ smoove merge \
     --fasta ${REFERENCE} \
     --outdir ${OUTPUT_DIR} \
     "${VCF_FILES[@]}"
+
+conda deactivate
