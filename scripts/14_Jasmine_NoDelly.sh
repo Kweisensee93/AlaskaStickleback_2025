@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=jasmine
-#SBATCH --output=/storage/homefs/kw23y068/logfiles/jasmine_%j.out
-#SBATCH --error=/storage/homefs/kw23y068/logfiles/jasmine_%j.err
+#SBATCH --job-name=jasmine_NoDelly
+#SBATCH --output=/storage/homefs/kw23y068/logfiles/jasmine_NoDelly_%j.out
+#SBATCH --error=/storage/homefs/kw23y068/logfiles/jasmine_NoDelly_%j.err
 #SBATCH --time=04:00:00
 #SBATCH --nodes=1
 #SBATCH --mem=64G
@@ -22,7 +22,7 @@ START_PAD=$(printf "%03d" "${BATCH_START}")
 END_PAD=$(printf "%03d" "${BATCH_END}")
 
 PROJECT_DIR=/storage/scratch/iee_evol/kw23y068
-OUTPUT_DIR=${PROJECT_DIR}/jasmine_${START_PAD}_${END_PAD}
+OUTPUT_DIR=${PROJECT_DIR}/jasmine_NoDelly_${START_PAD}_${END_PAD}
 mkdir -p ${OUTPUT_DIR}
 STORAGE_DIR="/storage/research/iee_evol/Korbi"
 REFERENCE="${STORAGE_DIR}/ref/GCF_016920845.1_GAculeatus_UGA_version5_genomic_shortnames_noY.fna"
@@ -30,16 +30,16 @@ REFERENCE="${STORAGE_DIR}/ref/GCF_016920845.1_GAculeatus_UGA_version5_genomic_sh
 # Get sample: Go to ouptut directory and copy from SV callers
 cd ${OUTPUT_DIR}
 # Define expected files
-DELLY="${PROJECT_DIR}/Delly_Merge_${START_PAD}_${END_PAD}/Delly_merged_filtered_${START_PAD}_${END_PAD}.vcf.gz"
+#DELLY="${PROJECT_DIR}/Delly_Merge_${START_PAD}_${END_PAD}/Delly_merged_filtered_${START_PAD}_${END_PAD}.vcf.gz"
 MANTA="${PROJECT_DIR}/manta_${START_PAD}_${END_PAD}_merged/manta_${START_PAD}_${END_PAD}_merged.vcf.gz"
 SMOOVE="${PROJECT_DIR}/smoove_${START_PAD}_${END_PAD}/smoove_${START_PAD}_${END_PAD}_filtered.vcf.gz"
 
 
 # Copy files - Note: existing files will be overwritten
-cp -f "$DELLY" "$MANTA" "$SMOOVE" .
+cp -f "$MANTA" "$SMOOVE" .
 
 # Safety check - we all know typos and stuff
-for f in "$DELLY" "$MANTA" "$SMOOVE" "$REFERENCE"; do
+for f in "$MANTA" "$SMOOVE" "$REFERENCE"; do
     if [[ ! -f "$f" ]]; then
         echo "ERROR: Required file not found: $f" >&2
         echo "Check pathway and previous callers."
@@ -47,10 +47,56 @@ for f in "$DELLY" "$MANTA" "$SMOOVE" "$REFERENCE"; do
     fi
 done
 
-gunzip -f *.vcf.gz
+# Load modules for preprocessing
+module load BCFtools/1.12-GCC-10.3.0
+
+echo "======================================"
+echo "Preprocessing VCF files..."
+echo "======================================"
+
+# Decompress and preprocess VCFs
+for vcf_gz in *.vcf.gz; do
+    vcf="${vcf_gz%.gz}"
+    echo "Processing $vcf_gz"
+    
+    # Decompress
+    gunzip -f "$vcf_gz"
+    
+    # Check if file exists after decompression
+    if [[ ! -f "$vcf" ]]; then
+        echo "ERROR: Failed to decompress $vcf_gz"
+        exit 1
+    fi
+    
+    # Fix the VCF:
+    # 1. Keep header
+    # 2. Filter body: only valid lines with >=8 fields
+    # 3. Remove lines with comma-separated values in ID field (Manta merge artifacts)
+    grep "^#" "$vcf" > "${vcf}.fixed"
+    grep -v "^#" "$vcf" | \
+        awk -F'\t' 'NF>=8' | \
+        awk -F'\t' '$3 !~ /,/' >> "${vcf}.fixed"
+    
+    # Check results
+    original_lines=$(grep -v "^#" "$vcf" | wc -l)
+    fixed_lines=$(grep -v "^#" "${vcf}.fixed" | wc -l)
+    removed_lines=$((original_lines - fixed_lines))
+    
+    echo "  Original variants: $original_lines"
+    echo "  Fixed variants: $fixed_lines"
+    echo "  Removed (malformed/multi-ID): $removed_lines"
+    
+    if [ "$fixed_lines" -eq 0 ]; then
+        echo "  ERROR: All variants removed from $vcf"
+        exit 1
+    fi
+    
+    # Replace with fixed version
+    mv "${vcf}.fixed" "$vcf"
+done
 
 # Create list of VCFs for Jasmine
-ls *.vcf > Manta_Smoove_Delly.list
+ls *.vcf > Manta_Smoove.list
 
 # Start with Jasmine
 
@@ -67,7 +113,7 @@ module load BCFtools/1.12-GCC-10.3.0
 module load SAMtools/1.13-GCC-10.3.0
 
 #input a list of vcf files (should not be zip)
-BASE="Manta_Smoove_Delly"
+BASE="Manta_Smoove"
 
 VCFlist=${BASE}.list
 OUTfile=${BASE}.vcf

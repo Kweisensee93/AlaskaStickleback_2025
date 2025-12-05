@@ -46,7 +46,7 @@ svtyper \
     -i "${VCF_RAW}" \
     -B $(echo ${PROJECT_DIR}/bams_real/*.fixmate.coordsorted.bam | tr ' ' ',') \
     -l \
-| bgzip -c > "${VCF_GT}"
+    | bgzip -c > "${VCF_GT}"
 
 bcftools index "${VCF_GT}"
 
